@@ -114,14 +114,13 @@ int main() {
     lenometime(local);
     lenometime(visitante);
     scanf("%d,%d",&golslocal,&golsvisitante);
-    getchar(); // consome o enter do scanf
-    // printf("local %s visitante %s ", local, visitante);
-    // printf("golslocal %d, golsvisitante %d\n", golslocal,golsvisitante);
+    getchar(); 
+
     if (golslocal < 0)
-      break; // termina a entrada de dados
+      break; 
 
     if(strcmp(local,visitante) == 0)
-      continue; // possui o mesmo nome time local e visitante
+      continue; 
 
     strncpy(jogos[i].local,local,30);
     strncpy(jogos[i].visitante,visitante,30);
@@ -131,32 +130,12 @@ int main() {
   }
   nojogos = i;
 
-  // Confirmando os valores lidos
-  // for(i=0; i < nojogos;++i)
-  //   printf("%d:%s,%s,%d,%d\n",i+1,jogos[i].local,jogos[i].visitante,jogos[i].golslocal,jogos[i].golsvisitante);
-
   int notimes = crialistatimes(times,jogos,nojogos);
-  // printf("Notimes: %d\n", notimes);
-  // printf("\nTimes:\n");
-  // for(i=0; i < notimes;++i)
-  //   printf("%2d:%s\n",i+1,times[i].nome);
 
   computadadostimes(times,notimes,jogos,nojogos);
-  // printf("\nResultado da computação dos dados dos jogos:\n");
-  // for(i=0; i < notimes;++i)
-  //   {
-  //   printf("%d:%s\n",i,times[i].nome);
-  //   printf("Pontos ganhos: %d\n",times[i].PontosGanhos);
-  //   printf("Gols marcados: %d\n",times[i].GolsMarcados);
-  //   printf("Gols sofridos: %d\n",times[i].GolsSofridos);
-  //   printf("Vitorias: %d\n",times[i].Vitorias);
-  //   printf("Saldo de gols: %d\n",times[i].SaldoDeGols);
-  //   printf("Gols average: %2.3f\n",times[i].GolAverage);
-  // }
 
   imprimeclassificacao(times,notimes);
-
-  // Opcional
+  
   salvaclassificacao(times,notimes,"campeonatoIP.dat");
 
 }
