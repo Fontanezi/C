@@ -80,12 +80,14 @@ int encontratime(time *timescampeonato, char *nome, int notimes)
 int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
 {
   // Preenche o arranjo timescampeonato com os times
-  for (int i = 0; i < numerojogos; i++)
+  int i;
+  int j;
+  for (i = 0; i < numerojogos; i++)
   {
-    for (int j = 0; j < numerojogos; j += 2)
+    for (j = 0; j < numerojogos; j += 2)
     {
-      timescampeonato[j].nome = dadosjogos[i].local;
-      timescampeonato[j + 1].nome = dadosjogos[i].visitante;
+      strcpy(timescampeonato[j].nome, dadosjogos[i].local);
+      strcpy(timescampeonato[j + 1].nome, dadosjogos[i].visitante);
       if (dadosjogos[i].golslocal > dadosjogos[i].golsvisitante)
       {
         timescampeonato[j].Vitorias += 1;
