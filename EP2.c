@@ -85,8 +85,17 @@ int encontratime(time *timescampeonato, char *nome, int notimes)
 
 int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
 {
-  // Preenche o arranjo timescampeonato com os times
-  // Adicione seu código
+  int count, duplicate;
+  // duplicate = encontratime(timescampeonato, dadosjogos[i].local, numerojogos);
+  for (int = 0; i < numerojogos; i++)
+  {
+    for (int j = 0; j < numerojogos; j++)
+    {
+      strcpy(timescampeonato[j].nome, dadosjogos[i].local);
+      strcpy(timescampeonato[j + 1].nome, dadosjogos[i].visitante);
+      count++;
+    }
+  }
 
   return 0; // retorna o número de times. O zero é só para compilar
 }
