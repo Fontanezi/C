@@ -71,33 +71,43 @@ void ordenaSaldoGols(time *timescampeonato, int notimes)
   // Adicione seu código para ordenar em ordem decrescente de saldo de gols
 }
 
-// Encontra se o time já está no arranjo de times do campeonato
-
 int encontratime(time *timescampeonato, char *nome, int notimes)
 {
-  // Retorna a posição do arranjo times de campeonato
-  // Adicione seu código
-
-  return -1; // retorna -1 se o time com o nome "nome" não existe
+  for (int i = 0; i < notimes; i++)
+  {
+    if (strcmp(timescampeonato[i].nome, nome) == 0)
+    {
+      return i;
+    }
+  }
+  return 1;
 }
 
 // Cria a lista de times do campeonato a partir dos nojogos
 
 int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
 {
-  int count, duplicate;
-  // duplicate = encontratime(timescampeonato, dadosjogos[i].local, numerojogos);
-  for (int = 0; i < numerojogos; i++)
+  int count = 0;
+  int verifyDuplicate;
+
+  for (int i = 0; i < numerojogos; i++)
   {
-    for (int j = 0; j < numerojogos; j++)
+    verifyDuplicate = encontratime(timescampeonato, dadosjogos[i].local, numerojogos);
+    if (verifyDuplicate == 1)
     {
-      strcpy(timescampeonato[j].nome, dadosjogos[i].local);
-      strcpy(timescampeonato[j + 1].nome, dadosjogos[i].visitante);
-      count++;
+      strncpy(timescampeonato[count].nome, dadosjogos[i].local, 30);
+      count++
+    }
+
+    verifyDuplicate = encontratime(timescampeonato, dadosjogos[i].visitante, numerojogos);
+    if (verifyDuplicate == 1)
+    {
+      strncpy(timescampeonato[count].nome, dadosjogos[i].visitante, 30);
+      count++
     }
   }
 
-  return 0; // retorna o número de times. O zero é só para compilar
+  return count;
 }
 
 // Computa dados times
