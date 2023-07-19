@@ -1,5 +1,5 @@
 /*********************************************************************/
-/**   ACH2001 - Introducao a Programação                            **/
+/**   ACH2001 - Introdução à Programação                            **/
 /**   EACH-USP - Primeiro Semestre de 2023                          **/
 /**   Turma 02 - Prof. Marcos Lordello Chaim                        **/
 /**                                                                 **/
@@ -45,10 +45,13 @@ void lenometime(char *s)
   c = getchar();
   for (i = 0; c != ',' && i < 30; ++i)
   {
+    // if(c == '\n')
+    //   continue;
     s[i] = c;
     c = getchar();
   }
   s[i] = '\0';
+  // printf("%s\n",s);
 }
 
 // Ordena por Pontos
@@ -80,31 +83,8 @@ int encontratime(time *timescampeonato, char *nome, int notimes)
 int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
 {
   // Preenche o arranjo timescampeonato com os times
-  int i;
-  int j;
-  for (i = 0; i < numerojogos; i++)
-  {
-    for (j = 0; j < numerojogos; j += 2)
-    {
-      strcpy(timescampeonato[j].nome, dadosjogos[i].local);
-      strcpy(timescampeonato[j + 1].nome, dadosjogos[i].visitante);
-      if (dadosjogos[i].golslocal > dadosjogos[i].golsvisitante)
-      {
-        timescampeonato[j].Vitorias += 1;
-        timescampeonato[j + 1].Derrotas += 1;
-      }
-      else if (dadosjogos[i].golsvisitante > dadosjogos[i].golslocal)
-      {
-        timescampeonato[j + 1].Vitorias += 1;
-        timescampeonato[j].Derrotas += 1;
-      }
-      else
-      {
-        timescampeonato[j].Empates += 1;
-        timescampeonato[j + 1].Empates += 1;
-      }
-    }
-  }
+  // Adicione seu código
+
   return 0; // retorna o número de times. O zero é só para compilar
 }
 
@@ -144,13 +124,14 @@ int main()
     lenometime(local);
     lenometime(visitante);
     scanf("%d,%d", &golslocal, &golsvisitante);
-    getchar();
-
+    getchar(); // consome o enter do scanf
+    // printf("local %s visitante %s ", local, visitante);
+    // printf("golslocal %d, golsvisitante %d\n", golslocal,golsvisitante);
     if (golslocal < 0)
-      break;
+      break; // termina a entrada de dados
 
     if (strcmp(local, visitante) == 0)
-      continue;
+      continue; // possui o mesmo nome time local e visitante
 
     strncpy(jogos[i].local, local, 30);
     strncpy(jogos[i].visitante, visitante, 30);
@@ -160,11 +141,31 @@ int main()
   }
   nojogos = i;
 
+  // Confirmando os valores lidos
+  // for(i=0; i < nojogos;++i)
+  //   printf("%d:%s,%s,%d,%d\n",i+1,jogos[i].local,jogos[i].visitante,jogos[i].golslocal,jogos[i].golsvisitante);
+
   int notimes = crialistatimes(times, jogos, nojogos);
+  // printf("Notimes: %d\n", notimes);
+  // printf("\nTimes:\n");
+  // for(i=0; i < notimes;++i)
+  //   printf("%2d:%s\n",i+1,times[i].nome);
 
   computadadostimes(times, notimes, jogos, nojogos);
+  // printf("\nResultado da computação dos dados dos jogos:\n");
+  // for(i=0; i < notimes;++i)
+  //   {
+  //   printf("%d:%s\n",i,times[i].nome);
+  //   printf("Pontos ganhos: %d\n",times[i].PontosGanhos);
+  //   printf("Gols marcados: %d\n",times[i].GolsMarcados);
+  //   printf("Gols sofridos: %d\n",times[i].GolsSofridos);
+  //   printf("Vitorias: %d\n",times[i].Vitorias);
+  //   printf("Saldo de gols: %d\n",times[i].SaldoDeGols);
+  //   printf("Gols average: %2.3f\n",times[i].GolAverage);
+  // }
 
   imprimeclassificacao(times, notimes);
 
+  // Opcional
   salvaclassificacao(times, notimes, "campeonatoIP.dat");
 }
