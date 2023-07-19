@@ -78,7 +78,7 @@ int encontratime(time *timescampeonato, char *nome)
   {
     if (strcmp(timescampeonato[i].nome, nome) == 0)
     {
-      return i;
+      return 0;
     }
   }
   return 1;
@@ -109,12 +109,11 @@ int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
       newTeam(dadosjogos[i].local);
     }
     verifyDuplicate = encontratime(timescampeonato, dadosjogos[i].visitante);
-    if (verifyDuplicate == 0)
+    if (verifyDuplicate == 1)
     {
       newTeam(dadosjogos[i].visitante);
     }
   }
-
   return notimes;
 }
 
@@ -166,4 +165,10 @@ int main()
   nojogos = i;
 
   int notimes = crialistatimes(times, jogos, nojogos);
+  printf("Notimes: %d\n", notimes);
+  printf("\nTimes:\n");
+  for (i = 0; i < notimes; ++i)
+  {
+    printf("%2d:%s\n", i + 1, times[i].nome);
+  }
 }
