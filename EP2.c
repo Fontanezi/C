@@ -58,18 +58,38 @@ void lenometime(char *s)
   s[i] = '\0';
 }
 
-// Ordena por Pontos
-
 void ordenaPontos(time *timescampeonato, int notimes)
 {
-  // Adicione seu código para ordenar em ordem decrescente de pontos ganhos
-}
+  int key, step, j;
+  j = 0;
 
-// Ordena por saldo de gols
+  for (step = 1; step < notimes; ++step)
+  {
+    key = timescampeonato[step].PontosGanhos, j = step - 1;
+    while (j >= 0 && key > timescampeonato[j].PontosGanhos)
+    {
+      timescampeonato[j + 1].PontosGanhos = timescampeonato[j].PontosGanhos;
+      timescampeonato[j].PontosGanhos = key;
+      --j;
+    }
+  }
+}
 
 void ordenaSaldoGols(time *timescampeonato, int notimes)
 {
-  // Adicione seu código para ordenar em ordem decrescente de saldo de gols
+  int key, step, j;
+  j = 0;
+
+  for (step = 1; step < notimes; ++step)
+  {
+    key = timescampeonato[step].SaldoDeGols, j = step - 1;
+    while (j >= 0 && key > timescampeonato[j].SaldoDeGols)
+    {
+      timescampeonato[j + 1].SaldoDeGols = timescampeonato[j].SaldoDeGols;
+      timescampeonato[j].SaldoDeGols = key;
+      --j;
+    }
+  }
 }
 
 int encontratime(time *timescampeonato, char *nome)
@@ -79,6 +99,18 @@ int encontratime(time *timescampeonato, char *nome)
     if (strcmp(timescampeonato[i].nome, nome) == 0)
     {
       return 0;
+    }
+  }
+  return 1;
+}
+
+int findTeam(time *timescampeonato, char *nome, int notimes)
+{
+  for (int i = 0; i < notimes; i++)
+  {
+    if (strcmp(timescampeonato[i].nome, nome) == 0)
+    {
+      return i;
     }
   }
   return 1;
@@ -117,27 +149,56 @@ int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
   return notimes;
 }
 
-// Computa dados times
-
 void computadadostimes(time *timescampeonato, int notimes, jogo *dadosjogos, int numerojogos)
 {
-  // Preenche os campos dos elementos do arranjo timescampeonato: Vitorias,
-  // GolsSofridos, GolsMarcados, Golsaverage, SaldoDeGols, PontosGanhos.
-  // Adicione seu código
-}
+  int local, visitante;
 
-// Imprime classificação
+  for (int i = 0; i < numerojogos; i++)
+  {
+    local = findTeam(timescampeonato, dadosjogos[i].local, notimes);
+    visitante = findTeam(timescampeonato, dadosjogos[i].visitante, notimes);
 
-void imprimeclassificacao(time *timescampeonato, int notimes)
-{
-  // Adicione seu código
-}
+    timescampeonato[local].GolsMarcados += dadosjogos[i].golslocal;
+    timescampeonato[visitante].GolsMarcados += dadosjogos[i].golsvisitante;
 
-// Salva os dados da classificação dos tipos em arquivo no disco
+    timescampeonato[local].GolsSofridos += dadosjogos[i].golsvisitante;
+    timescampeonato[visitante].GolsSofridos += dadosjogos[i].golslocal;
 
-void salvaclassificacao(time *timescampeonato, int notimes, char *arquivo)
-{
-  // Adicione seu código
+    if (dadosjogos[i].golslocal > dadosjogos[i].golsvisitante)
+    {
+      timescampeonato[local].Vitorias++;
+      timescampeonato[local].PontosGanhos += 3;
+      timescampeonato[visitante].Derrotas++;
+    }
+    else if (dadosjogos[i].golsvisitante > dadosjogos[i].golslocal)
+    {
+      timescampeonato[visitante].Vitorias++;
+      timescampeonato[visitante].PontosGanhos += 3;
+      timescampeonato[local].Derrotas++;
+    }
+    else
+    {
+      timescampeonato[local].Empates++;
+      timescampeonato[local].PontosGanhos++;
+      timescampeonato[visitante].Empates++;
+      timescampeonato[visitante].PontosGanhos++;
+    }
+  }
+
+  for (int i = 0; i < notimes; i++)
+  {
+    int resultAverage;
+    if (timescampeonato[i].GolsSofridos == 0)
+    {
+      resultAverage = timescampeonato[i].GolsMarcados;
+    }
+    else
+    {
+      resultAverage = timescampeonato[i].GolsMarcados / timescampeonato[i].GolsSofridos;
+    }
+    timescampeonato[i].GolAverage = resultAverage;
+    timescampeonato[i].SaldoDeGols = timescampeonato[i].GolsMarcados - timescampeonato[i].GolsSofridos;
+  }
 }
 
 int main()
@@ -165,10 +226,6 @@ int main()
   nojogos = i;
 
   int notimes = crialistatimes(times, jogos, nojogos);
-  printf("Notimes: %d\n", notimes);
-  printf("\nTimes:\n");
-  for (i = 0; i < notimes; ++i)
-  {
-    printf("%2d:%s\n", i + 1, times[i].nome);
-  }
+
+  computadadostimes(times, notimes, jogos, nojogos);
 }
