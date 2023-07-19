@@ -41,6 +41,7 @@ typedef struct auxjogo
 time times[NumeroMaxTimes];
 jogo jogos[NumeroMaxJogos];
 int i, nojogos, golslocal = 0, golsvisitante = 0;
+int notimes = 0;
 char local[30], visitante[30];
 
 void lenometime(char *s)
@@ -71,7 +72,7 @@ void ordenaSaldoGols(time *timescampeonato, int notimes)
   // Adicione seu código para ordenar em ordem decrescente de saldo de gols
 }
 
-int encontratime(time *timescampeonato, char *nome, int notimes)
+int encontratime(time *timescampeonato, char *nome)
 {
   for (int i = 0; i < notimes; i++)
   {
@@ -83,31 +84,38 @@ int encontratime(time *timescampeonato, char *nome, int notimes)
   return 1;
 }
 
-// Cria a lista de times do campeonato a partir dos nojogos
+void newTeam(char *nome)
+{
+  strcpy(times[notimes].nome, nome);
+  times[notimes].PontosGanhos = 0;
+  times[notimes].GolsMarcados = 0;
+  times[notimes].GolsSofridos = 0;
+  times[notimes].SaldoDeGols = 0;
+  times[notimes].Vitorias = 0;
+  times[notimes].Empates = 0;
+  times[notimes].Derrotas = 0;
+  times[notimes].GolAverage = 0;
+  notimes++;
+}
 
 int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
 {
-  int count = 0;
-  int verifyDuplicate;
-
   for (int i = 0; i < numerojogos; i++)
   {
-    verifyDuplicate = encontratime(timescampeonato, dadosjogos[i].local, numerojogos);
+    int teamCounter = 0, verifyDuplicate;
+    verifyDuplicate = encontratime(timescampeonato, dadosjogos[i].local);
     if (verifyDuplicate == 1)
     {
-      strncpy(timescampeonato[count].nome, dadosjogos[i].local, 30);
-      count++
+      newTeam(dadosjogos[i].local);
     }
-
-    verifyDuplicate = encontratime(timescampeonato, dadosjogos[i].visitante, numerojogos);
-    if (verifyDuplicate == 1)
+    verifyDuplicate = encontratime(timescampeonato, dadosjogos[i].visitante);
+    if (verifyDuplicate == 0)
     {
-      strncpy(timescampeonato[count].nome, dadosjogos[i].visitante, 30);
-      count++
+      newTeam(dadosjogos[i].visitante);
     }
   }
 
-  return count;
+  return notimes;
 }
 
 // Computa dados times
@@ -158,10 +166,4 @@ int main()
   nojogos = i;
 
   int notimes = crialistatimes(times, jogos, nojogos);
-
-  computadadostimes(times, notimes, jogos, nojogos);
-
-  imprimeclassificacao(times, notimes);
-
-  salvaclassificacao(times, notimes, "campeonatoIP.dat");
 }
