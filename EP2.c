@@ -74,7 +74,7 @@ void ordenaPontos(time *timescampeonato, int notimes)
 
         holder = timescampeonato[j];
         timescampeonato[j] = timescampeonato[j + 1];
-        timescampeonato[j + 1] = temp;
+        timescampeonato[j + 1] = holder;
       }
     }
   }
