@@ -60,36 +60,28 @@ void lenometime(char *s)
 
 void ordenaPontos(time *timescampeonato, int notimes)
 {
-  int key, step, j;
-  j = 0;
+  int i, j;
+  time holder;
 
-  for (step = 1; step < notimes; ++step)
+  for (i = 0; i < notimes - 1; i++)
   {
-    key = timescampeonato[step].PontosGanhos, j = step - 1;
-    while (j >= 0 && key > timescampeonato[j].PontosGanhos)
+    for (j = 0; j < notimes - i - 1; j++)
     {
-      timescampeonato[j + 1].PontosGanhos = timescampeonato[j].PontosGanhos;
-      timescampeonato[j].PontosGanhos = key;
-      --j;
+      if (timescampeonato[j].PontosGanhos < timescampeonato[j + 1].PontosGanhos ||
+          (timescampeonato[j].PontosGanhos == timescampeonato[j + 1].PontosGanhos &&
+           timescampeonato[j].SaldoDeGols < timescampeonato[j + 1].SaldoDeGols))
+      {
+
+        holder = timescampeonato[j];
+        timescampeonato[j] = timescampeonato[j + 1];
+        timescampeonato[j + 1] = temp;
+      }
     }
   }
 }
 
 void ordenaSaldoGols(time *timescampeonato, int notimes)
 {
-  int key, step, j;
-  j = 0;
-
-  for (step = 1; step < notimes; ++step)
-  {
-    key = timescampeonato[step].SaldoDeGols, j = step - 1;
-    while (j >= 0 && key > timescampeonato[j].SaldoDeGols)
-    {
-      timescampeonato[j + 1].SaldoDeGols = timescampeonato[j].SaldoDeGols;
-      timescampeonato[j].SaldoDeGols = key;
-      --j;
-    }
-  }
 }
 
 int encontratime(time *timescampeonato, char *nome)
@@ -134,7 +126,7 @@ int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
 {
   for (int i = 0; i < numerojogos; i++)
   {
-    int teamCounter = 0, verifyDuplicate;
+    int verifyDuplicate;
     verifyDuplicate = encontratime(timescampeonato, dadosjogos[i].local);
     if (verifyDuplicate == 1)
     {
@@ -201,6 +193,16 @@ void computadadostimes(time *timescampeonato, int notimes, jogo *dadosjogos, int
   }
 }
 
+void imprimeclassificacao(time *timescampeonato, int notimes)
+{
+  printf("\n");
+  printf("Posicao,Nome,Pontos Ganhos,Vitorias,Empates,Derrotas,Saldo de Gols,Gol Average\n");
+  for (i = 0; i < notimes; ++i)
+  {
+    printf("%d,%s,%d,%d,%d,%d,%d,%.3f\n", i, timescampeonato[i].nome, timescampeonato[i].PontosGanhos, timescampeonato[i].Vitorias, timescampeonato[i].Empates, timescampeonato[i].Derrotas, timescampeonato[i].SaldoDeGols, timescampeonato[i].GolAverage);
+  }
+}
+
 int main()
 {
   printf("Entre os jogos no formato \"time local, time visitante, golslocal, golsvisitante\" (gols local negativo encerra a entrada de dados)\n");
@@ -228,4 +230,8 @@ int main()
   int notimes = crialistatimes(times, jogos, nojogos);
 
   computadadostimes(times, notimes, jogos, nojogos);
+
+  ordenaPontos(times, notimes);
+
+  imprimeclassificacao(times, notimes);
 }
