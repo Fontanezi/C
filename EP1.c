@@ -1,13 +1,3 @@
-/*********************************************************************/
-/**   ACH2001 - Introducao a Programação                            **/
-/**   EACH-USP - Primeiro Semestre de 2022                          **/
-/**   Turma 02 - Prof. Marcos Lordello Chaim                        **/
-/**                                                                 **/
-/**   Primeiro Exercicio-Programa                                   **/
-/**                                                                 **/
-/**   João Paulo Fernandes Fontanezi                  14747191      **/
-/**                                                                 **/
-/*********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 int mesDias[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
