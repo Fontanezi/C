@@ -1,14 +1,3 @@
-/*********************************************************************/
-/**   ACH2001 - Introdução à Programação                            **/
-/**   EACH-USP - Primeiro Semestre de 2023                          **/
-/**   Turma 02 - Prof. Marcos Lordello Chaim                        **/
-/**                                                                 **/
-/**   Segundo Exercicio-Programa                                    **/
-/**                                                                 **/
-/**   João Paulo Fernandes Fontanezi                  14747191      **/
-/**                                                                 **/
-/*********************************************************************/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
