@@ -177,14 +177,12 @@ void computadadostimes(time *timescampeonato, int notimes, jogo *dadosjogos, int
     int resultAverage;
     if (timescampeonato[i].GolsSofridos == 0)
     {
-      resultAverage = timescampeonato[i].GolsMarcados;
+      timescampeonato[i].GolAverage = timescampeonato[i].GolsMarcados;
     }
     else
     {
-      resultAverage = timescampeonato[i].GolsMarcados / timescampeonato[i].GolsSofridos;
+      timescampeonato[i].GolAverage = timescampeonato[i].GolsMarcados / (float)timescampeonato[i].GolsSofridos;
     }
-    timescampeonato[i].GolAverage = resultAverage;
-    timescampeonato[i].SaldoDeGols = timescampeonato[i].GolsMarcados - timescampeonato[i].GolsSofridos;
   }
 }
 
