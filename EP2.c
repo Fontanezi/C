@@ -199,7 +199,7 @@ void imprimeclassificacao(time *timescampeonato, int notimes)
   printf("Posicao,Nome,Pontos Ganhos,Vitorias,Empates,Derrotas,Saldo de Gols,Gol Average\n");
   for (i = 0; i < notimes; ++i)
   {
-    printf("%d,%s,%d,%d,%d,%d,%d,%.3f\n", i, timescampeonato[i].nome, timescampeonato[i].PontosGanhos, timescampeonato[i].Vitorias, timescampeonato[i].Empates, timescampeonato[i].Derrotas, timescampeonato[i].SaldoDeGols, timescampeonato[i].GolAverage);
+    printf("%d,%s,%d,%d,%d,%d,%d,%.3f\n", (i + 1), timescampeonato[i].nome, timescampeonato[i].PontosGanhos, timescampeonato[i].Vitorias, timescampeonato[i].Empates, timescampeonato[i].Derrotas, timescampeonato[i].SaldoDeGols, timescampeonato[i].GolAverage);
   }
 }
 
