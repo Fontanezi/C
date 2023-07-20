@@ -16,7 +16,6 @@
 #define NumeroMaxTimes 20
 #define NumeroMaxRodadas 38
 #define NumeroMaxJogos NumeroMaxTimes *NumeroMaxRodadas
-
 typedef struct auxtime
 {
   int PontosGanhos;
@@ -78,10 +77,6 @@ void ordenaPontos(time *timescampeonato, int notimes)
       }
     }
   }
-}
-
-void ordenaSaldoGols(time *timescampeonato, int notimes)
-{
 }
 
 int encontratime(time *timescampeonato, char *nome)
@@ -203,6 +198,22 @@ void imprimeclassificacao(time *timescampeonato, int notimes)
   }
 }
 
+void fileprint(FILE *str)
+{
+  fprintf(str, "Posicao,Nome,Pontos Ganhos,Vitorias,Empates,Derrotas,Saldo de Gols,Gol Average\n");
+  for (i = 0; i < notimes; ++i)
+  {
+    fprintf(str, "%d,%s,%d,%d,%d,%d,%d,%.3f\n", (i + 1), times[i].nome, times[i].PontosGanhos, times[i].Vitorias, times[i].Empates, times[i].Derrotas, times[i].SaldoDeGols, times[i].GolAverage);
+  }
+}
+
+void salvaClassificacao(char *arquivo)
+{
+  FILE *f = fopen(arquivo, "w");
+  fileprint(f);
+  fclose(f);
+}
+
 int main()
 {
   printf("Entre os jogos no formato \"time local, time visitante, golslocal, golsvisitante\" (gols local negativo encerra a entrada de dados)\n");
@@ -234,4 +245,6 @@ int main()
   ordenaPontos(times, notimes);
 
   imprimeclassificacao(times, notimes);
+
+  salvaClassificacao("campeonatoIP.dat");
 }
