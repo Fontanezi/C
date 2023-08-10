@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <math.h>
 
-int lg(int n)
-{
+int lg(int n) {
+
 }
 
-int main()
-{
+int main() {
 
     return 0;
 }
