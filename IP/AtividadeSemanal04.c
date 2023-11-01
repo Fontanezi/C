@@ -21,6 +21,6 @@ double areaQuadrado(double lado)
 int main()
 {
     printf("Área do trapézio: %f\n", areaTrapezio(3, 2, 1));
-    printf("Área do trapézio: %f\n", areaRetangulo(11, 27));
+    printf("Área do retângulo: %f\n", areaRetangulo(11, 27));
     printf("Área do quadrado: %f\n", areaQuadrado(5));
 }
