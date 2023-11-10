@@ -60,12 +60,11 @@ int buscaSeqOrd(int ch, LISTA l, int *ant) // Busca sequencial, retornando a pos
         return -1;
 }
 
-int obterNó(LISTA *l) // Obter nó disponível - a lista é alterada
+int obterNó(LISTA *l)
 {
-    int result = l->dispo;
+    int result = l->dispo; // Obter nó disponível - a lista é alterada
     if (l->dispo > -1)
     {
-
         l->dispo = l->A[l->dispo].prox;
     }
     return (result);
