@@ -1,86 +1,185 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-// tamanho máximo do vetor estático
-#define MAX 50
+/* Para evitar a necessidade de definição antecipada do tamanho máximo da estrutura de implementação estática
+(i.e., o vetor), podemos tirar proveito dos recursos de alocação dinâmica de memória das linguagens de
+programação como C, deixando o gerenciamento de nós livres / ocupados a cargo do ambiente de
+programação. Esta técnica constitui à implementação dinâmica de listas ligadas, e requer o uso das funções
+disponibilizadas em malloc.h: */
 
-/* Uma lista linear ligada (ou simplesmente lista ligada) é uma lista linear na qual a ordem (lógica) dos
-elementos da lista (chamados “nós”) não necessariamente coincide com sua posição física (em memória).
-Pode ser implementada de forma estática (usando-se um vetor) ou, em linguagens de programação que
-oferecem suporte à alocação dinâmica, com uso de ponteiros. */
-
-typedef struct
+typedef struct estrutura
 {
     int chave;
-    int prox;
-} REGISTRO;
+    int info;
+    struct estrutura *prox;
+} NO;
 
 typedef struct
 {
-    REGISTRO A[MAX];
-    int inicio;
-    int dispo;
+    NO *inicio;
 } LISTA;
 
-void inicializarListaLigadaEstatica(LISTA *l) // Inicialização
+// Inicialização
+void inicializarLista(LISTA *l)
 {
-    l->inicio = -1;
-    l->dispo = 0;
-    for (int i = 0; i < MAX - 1; i++)
-        l->A[i].prox = i + 1;
-    l->A[MAX - 1].prox = -1;
+    l->inicio = NULL;
 }
 
-void exibirLista(LISTA l) // Exibição da lista completa
+// Exibição da lista completa
+void exibirLista(LISTA l)
 {
-    int i = l.inicio;
-    while (i > -1)
+    NO *p = l.inicio;
+    while (p)
     {
-        printf("%d ", l.A[i].chave);
-        i = l.A[i].prox;
+        printf("%d ", p->chave);
+        p = p->prox;
     }
 }
 
-int buscaSeqOrd(int ch, LISTA l, int *ant) // Busca sequencial, retornando a posição da chave e do anterior
+// Retornar o primeiro elemento da lista
+NO *primeiroElemLista(LISTA l)
 {
-    int i = l.inicio;
-    *ant = -1;
-    while (i != -1)
-    {
-        if (l.A[i].chave >= ch)
-            break;
-        *ant = i;
-        i = l.A[i].prox;
-    }
-    if (i == -1)
-        return -1;
-    if (l.A[i].chave == ch)
-        return (i);
+    return (l.inicio);
+}
+
+// Retornar o último elemento da lista
+NO *ultimoElemLista(LISTA l)
+{
+    NO *p = l.inicio;
+    if (p)
+        while (p->prox)
+            p = p->prox;
+    return (p);
+}
+
+// Retornar o enésimo elemento da lista
+NO *enesimoElemLista(LISTA l, int n)
+{
+    NO *p = l.inicio;
+    int i = 1;
+    if (p)
+        while ((p->prox) && (i < n))
+        {
+            p = p->prox;
+            i++;
+        }
+    if (i != n)
+        return (NULL);
     else
-        return -1;
+        return (p);
 }
 
-int obterNó(LISTA *l)
+// Quantos elementos existem na lista
+int tamanhoLista(LISTA l)
 {
-    int result = l->dispo; // Obter nó disponível - a lista é alterada
-    if (l->dispo > -1)
+    NO *p = l.inicio;
+    int tam = 0;
+    while (p)
     {
-        l->dispo = l->A[l->dispo].prox;
+        tam++;
+        p = p->prox;
     }
-    return (result);
+    return (tam);
 }
 
-// Devolver nó p/ dispo – a lista é alterada
-void devolverNo(LISTA *l, int j)
+// Busca pela chave ch na lista (ordem crescente) retornando p e ant
+NO *buscaSeqOrd(int ch, LISTA l, NO **ant)
 {
-    l->A[j].prox = l->dispo;
-    l->dispo = j;
+    NO *p = l.inicio;
+    *ant = NULL;
+    while (p)
+    {
+        if (p->chave >= ch)
+            break;
+        *ant = p;
+        p = p->prox;
+    }
+    if (p)
+        if (p->chave == ch)
+            return (p);
+    return (NULL);
+}
+
+// Inserção da chave ch na lista ordenada sem duplicações
+bool inserirElemListaOrd(int ch, LISTA *l)
+{
+    NO *novo;
+    NO *ant;
+    novo = buscaSeqOrd(ch, *l, &ant);
+    if (novo)
+        return (false);
+    novo = (NO *)malloc(sizeof(NO));
+    novo->chave = ch;
+    if (!l->inicio)
+    { // 1a. inserção em lista vazia
+        l->inicio = novo;
+        novo->prox = NULL;
+    }
+    else
+    {
+        if (!ant)
+        { // inserção no início da lista
+            novo->prox = l->inicio;
+            l->inicio = novo;
+        }
+        else
+        { // inserção após um nó existente
+            novo->prox = ant->prox;
+            ant->prox = novo;
+        }
+    }
+    return (true);
+}
+
+// Anexar novo elemento ao final da lista, duplicado ou não
+void anexarElemLista(int ch, LISTA *l)
+{
+    NO *novo;
+    NO *ant;
+    ant = ultimoElemLista(*l);
+    novo = (NO *)malloc(sizeof(NO));
+    novo->chave = ch;
+    novo->prox = NULL;
+    if (!ant)
+        l->inicio = novo;
+    else
+        ant->prox = novo;
+}
+
+// Exclusão da chave dada
+bool excluirElemLista(int ch, LISTA *l)
+{
+    NO *ant;
+    NO *elem;
+    elem = buscaSeqOrd(ch, *l, &ant);
+    if (!elem)
+        return (false); // nada a excluir
+    if (!ant)
+        l->inicio = elem->prox; // exclui 1o. elemento da lista
+    else
+        ant->prox = elem->prox; // exclui elemento que possui ant
+    free(elem);                 // exclusão “física”
+    return (true);
+}
+
+// Destruição da lista
+void destruirLista(LISTA *l)
+{
+    NO *atual;
+    NO *prox;
+    atual = l->inicio;
+    while (atual)
+    {
+        prox = atual->prox; // guarda próxima posição
+        free(atual);        // libera memória apontada por atual
+        atual = prox;
+    }
+    l->inicio = NULL; // ajusta início da lista (vazia)
 }
 
 int main()
 {
-    LISTA l1;
-    LISTA *l = &l1;
-    inicializarListaLigadaEstatica(l);
+
     return 0;
 }
