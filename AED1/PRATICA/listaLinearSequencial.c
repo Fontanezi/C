@@ -16,7 +16,7 @@ typedef struct
     int noElem;
 } LISTA;
 
-// Inicializa
+// Inicializa lista
 void listaInit(LISTA *l)
 {
     l->noElem = 0;
