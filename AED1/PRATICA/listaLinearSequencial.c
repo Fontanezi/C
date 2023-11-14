@@ -28,12 +28,12 @@ bool listaInsert(LISTA *l, int i, int ch)
 {
     if (i > MAX || i < 0)
     {
-        printf("Índice inválido!\n");
+        // printf("Índice inválido!\n");
         return false;
     }
     else if (l->noElem == MAX)
     {
-        printf("Lista cheia!\n");
+        // printf("Lista cheia!\n");
         return false;
     }
     else
@@ -44,7 +44,7 @@ bool listaInsert(LISTA *l, int i, int ch)
         }
         l->A[i].chave = ch;
         l->noElem++;
-        printf("Chave %i adicionada na posição %i!\n", ch, i);
+        // printf("Chave %i adicionada na posição %i!\n", ch, i);
         return true;
     }
 }
@@ -53,7 +53,7 @@ bool listaInsert(LISTA *l, int i, int ch)
 int chavePrimeiro(LISTA l)
 {
     int ch = l.A[0].chave;
-    printf("Chave do primeiro elemento: %i.\n", ch);
+    // printf("Chave do primeiro elemento: %i.\n", ch);
     return ch;
 }
 
@@ -61,7 +61,7 @@ int chavePrimeiro(LISTA l)
 int chaveUltimo(LISTA l)
 {
     int ch = l.A[l.noElem - 1].chave;
-    printf("Chave do último elemento: %i.\n", ch);
+    // printf("Chave do último elemento: %i.\n", ch);
     return ch;
 }
 
@@ -104,11 +104,11 @@ int listaBuscaSeq(LISTA l, int ch)
     {
         if (l.A[i].chave == ch)
         {
-            printf("Chave %i encontrada na posição %i.\n", ch, i);
+            // printf("Chave %i encontrada na posição %i.\n", ch, i);
             return i;
         }
     }
-    printf("Chave %i não está na lista.\n", ch);
+    // printf("Chave %i não está na lista.\n", ch);
     return -1;
 }
 
@@ -123,7 +123,7 @@ int listaBuscaBin(LISTA l, int ch)
         int mid = (start + end) / 2;
         if (l.A[mid].chave == ch)
         {
-            printf("Chave %i encontrada na posição %i.\n", ch, mid);
+            // printf("Chave %i encontrada na posição %i.\n", ch, mid);
             return mid;
         }
         else
@@ -138,7 +138,7 @@ int listaBuscaBin(LISTA l, int ch)
             }
         }
     }
-    printf("Chave %i não está na lista.\n", ch);
+    // printf("Chave %i não está na lista.\n", ch);
     return -1;
 }
 
@@ -157,11 +157,11 @@ int listaBuscaSeqSent(LISTA l, int ch)
 
     if (index == l.noElem - 1)
     {
-        printf("Chave %i não está na lista.\n", ch);
+        // printf("Chave %i não está na lista.\n", ch);
         return -1;
     }
 
-    printf("Chave %i encontrada na posição %i.\n", ch, index);
+    // printf("Chave %i encontrada na posição %i.\n", ch, index);
     return index;
 }
 
@@ -173,7 +173,7 @@ bool listaRemove(LISTA *l, int ch)
 
     if (pos == -1)
     {
-        printf("A chave %i não está na lista.\n", ch);
+        // printf("A chave %i não está na lista.\n", ch);
         return false;
     }
 
@@ -182,7 +182,7 @@ bool listaRemove(LISTA *l, int ch)
         l->A[j] = l->A[j + 1];
     }
     l->noElem--;
-    printf("Chave %i removida da lista.\n", ch);
+    // printf("Chave %i removida da lista.\n", ch);
     return true;
 }
 
