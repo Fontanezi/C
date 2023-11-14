@@ -87,7 +87,7 @@ void listaSize(LISTA l)
 // Exibe
 void listaPrint(LISTA l)
 {
-    if (l.noElem = 0)
+    if (l.noElem == 0)
     {
         printf("Lista vazia!\n");
     }
