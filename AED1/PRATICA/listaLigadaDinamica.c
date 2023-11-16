@@ -78,13 +78,13 @@ int buscaSequencialOrd(LISTA *l, int ch)
 }
 
 // Busca auxiliar pra inserção
-NO *buscaAux(LISTA *l, int ch, NO *ant)
+NO *buscaAux(LISTA *l, int ch, NO **ant)
 {
-    NO *ant = NULL;
+    *ant = NULL;
     NO *atual = l->inicio;
     while ((atual != NULL) && (atual->chave < ch))
     {
-        NO *ant = atual;
+        *ant = atual;
         atual = atual->prox;
     }
     if ((atual != NULL) && (atual->chave == ch))
