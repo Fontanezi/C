@@ -106,7 +106,7 @@ bool listaInsert(LISTA *l, int ch)
     {
         return false;
     }
-    NO *new = (NO *)malloc(sizeof(NO));
+    i = (NO *)malloc(sizeof(NO));
     i->chave = ch;
     if (ant == NULL)
     {

@@ -14,7 +14,6 @@ sendo definido. */
 typedef struct estrutura
 {
     int chave;
-    int info;
     struct estrutura *prox;
 } NO;
 
@@ -187,6 +186,9 @@ void destruirLista(LISTA *l)
 
 int main()
 {
+    LISTA l;
+    LISTA *p = &l;
+    inicializarLista(p);
 
     return 0;
 }
