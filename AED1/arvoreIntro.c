@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+typedef enum
+{
+    esq,
+    dir
+} LADO;
+
 // Permitem o uso da busca binária em estruturas de alocação dinâmica.
 // Um conjunto de nós. Temos um nó raiz e subárvores.
 // O grau de cada nó consiste no número de subárvores que ele contém.
@@ -14,6 +21,7 @@
 
 // ÁRVORE BINÁRIA - Abaixo de cada nó existem no máximo duas subárvores. Grau 0, 1 ou 2.
 
+// ÁRVORE BINÁRIA DE BUSCA / PESQUISA - Elementos menores à esquerda e maiores à direita. - Usada pra busca binária!
 typedef struct aux
 {
     int chave;
