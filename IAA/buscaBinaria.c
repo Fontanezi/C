@@ -23,6 +23,8 @@ int buscaBinaria(int *A, int n, int ch)
     return 0;
 }
 
+// O(logN)
+
 int main()
 {
     return 0;

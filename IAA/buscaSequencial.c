@@ -12,6 +12,8 @@ int buscaSequencial(int *A, int n, int ch)
     return 0;
 }
 
+// O(n)
+
 int main()
 {
     return 0;
