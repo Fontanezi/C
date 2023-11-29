@@ -3,7 +3,6 @@
 #include <stdbool.h>
 
 // Como não há ordem de inserção, a busca não é eficiente. Buscaremos a partir da raiz.
-
 typedef enum
 {
     esq,
@@ -15,28 +14,6 @@ typedef struct aux
     int chave;
     struct aux *esq, *dir;
 } NO;
-
-// Busca chave na árvore
-NO *buscarChave(NO *raiz, int ch)
-{
-    if (raiz == NULL)
-    {
-        return NULL;
-    }
-    else if (raiz->chave == ch)
-    {
-        return raiz;
-    }
-    NO *aux = buscarChave(raiz->esq, ch);
-    if (aux)
-    {
-        return aux;
-    }
-    else
-    {
-        return buscarChave(raiz->dir, ch);
-    }
-}
 
 // Cria um nó
 NO *criaNo(int ch)
@@ -74,6 +51,28 @@ bool arvoreInsert(NO **raiz, int ch, int chPai, LADO lado)
         pai->dir = new;
     }
     return true;
+}
+
+// Busca chave na árvore
+NO *buscarChave(NO *raiz, int ch)
+{
+    if (raiz == NULL)
+    {
+        return NULL;
+    }
+    else if (raiz->chave == ch)
+    {
+        return raiz;
+    }
+    NO *aux = buscarChave(raiz->esq, ch);
+    if (aux)
+    {
+        return aux;
+    }
+    else
+    {
+        return buscarChave(raiz->dir, ch);
+    }
 }
 
 int main()
