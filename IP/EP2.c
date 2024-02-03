@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+ //teste
 #define NumeroMaxTimes 20
 #define NumeroMaxRodadas 38
 #define NumeroMaxJogos NumeroMaxTimes *NumeroMaxRodadas
