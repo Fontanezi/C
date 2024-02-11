@@ -8,8 +8,12 @@ void selectionSort(int v[], int tam)
     {
         posMenor = i;
         for (p = i + 1; p < tam; p++)
+        {
             if (v[p] < v[posMenor])
+            {
                 posMenor = p;
+            }
+        }
         aux = v[i];
         v[i] = v[posMenor];
         v[posMenor] = aux;
