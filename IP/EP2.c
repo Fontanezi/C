@@ -98,13 +98,86 @@ int crialistatimes(time *timescampeonato, jogo *dadosjogos, int numerojogos)
     return notimes;
 }
 
-// Computa dados times
-
 void computadadostimes(time *timescampeonato, int notimes, jogo *dadosjogos, int numerojogos)
 {
-    // Preenche os campos dos elementos do arranjo timescampeonato: Vitorias,
-    // GolsSofridos, GolsMarcados, Golsaverage, SaldoDeGols, PontosGanhos.
-    // Adicione seu código
+    for (int i = 0; i < numerojogos; i++)
+    {
+
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].PontosGanhos = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsMarcados = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsSofridos = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].SaldoDeGols = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].Vitorias = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].Empates = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].Derrotas = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolAverage = 0;
+
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].PontosGanhos = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsMarcados = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsSofridos = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].SaldoDeGols = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].Vitorias = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].Empates = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].Derrotas = 0;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolAverage = 0.000;
+    }
+    for (int i = 0; i < numerojogos; i++)
+    {
+
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsMarcados += dadosjogos[i].golslocal;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsSofridos += dadosjogos[i].golsvisitante;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].SaldoDeGols = timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsMarcados - timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsSofridos;
+        if (dadosjogos[i].golslocal > dadosjogos[i].golsvisitante)
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].Vitorias += 1;
+        }
+        else if (dadosjogos[i].golslocal == dadosjogos[i].golsvisitante)
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].Empates += 1;
+        }
+        else
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].Derrotas += 1;
+        }
+
+        if (timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsSofridos == 0)
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolAverage = 0;
+        }
+        else
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolAverage = (float)timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsMarcados / timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].GolsSofridos;
+        }
+
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].PontosGanhos = (timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].Vitorias * 3) + (timescampeonato[encontratime(timescampeonato, dadosjogos[i].local, notimes)].Empates);
+
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsMarcados += dadosjogos[i].golsvisitante;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsSofridos += dadosjogos[i].golslocal;
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].SaldoDeGols = timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsMarcados - timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsSofridos;
+        if (dadosjogos[i].golsvisitante > dadosjogos[i].golslocal)
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].Vitorias += 1;
+        }
+        else if (dadosjogos[i].golsvisitante == dadosjogos[i].golslocal)
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].Empates += 1;
+        }
+        else
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].Derrotas += 1;
+        }
+
+        if (timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsSofridos == 0)
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolAverage = 0;
+        }
+        else
+        {
+            timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolAverage = (float)timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsMarcados / timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].GolsSofridos;
+        }
+
+        timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].PontosGanhos = (timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].Vitorias * 3) + (timescampeonato[encontratime(timescampeonato, dadosjogos[i].visitante, notimes)].Empates);
+    }
 }
 
 // Imprime classificação
@@ -157,20 +230,8 @@ int main()
     int notimes = crialistatimes(times, jogos, nojogos);
 
     computadadostimes(times, notimes, jogos, nojogos);
-    // printf("\nResultado da computação dos dados dos jogos:\n");
-    // for(i=0; i < notimes;++i)
-    //   {
-    //   printf("%d:%s\n",i,times[i].nome);
-    //   printf("Pontos ganhos: %d\n",times[i].PontosGanhos);
-    //   printf("Gols marcados: %d\n",times[i].GolsMarcados);
-    //   printf("Gols sofridos: %d\n",times[i].GolsSofridos);
-    //   printf("Vitorias: %d\n",times[i].Vitorias);
-    //   printf("Saldo de gols: %d\n",times[i].SaldoDeGols);
-    //   printf("Gols average: %2.3f\n",times[i].GolAverage);
-    // }
 
     imprimeclassificacao(times, notimes);
 
-    // Opcional
     salvaclassificacao(times, notimes, "campeonatoIP.dat");
 }
