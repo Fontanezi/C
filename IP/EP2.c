@@ -51,17 +51,42 @@ void lenometime(char *s)
     s[i] = '\0';
 }
 
-// Ordena por Pontos
-
 void ordenaPontos(time *timescampeonato, int notimes)
 {
+    int i, p, posMaior;
+    for (i = 0; i < notimes - 1; i++)
+    {
+        posMaior = i;
+        for (p = i + 1; p < notimes; p++)
+        {
+            if (timescampeonato[p].PontosGanhos > timescampeonato[posMaior].PontosGanhos)
+            {
+                posMaior = p;
+            }
+        }
+        time aux = timescampeonato[i];
+        timescampeonato[i] = timescampeonato[posMaior];
+        timescampeonato[posMaior] = aux;
+    }
 }
-
-// Ordena por saldo de gols
 
 void ordenaSaldoGols(time *timescampeonato, int notimes)
 {
-    // Adicione seu código para ordenar em ordem decrescente de saldo de gols
+    int i, p, posMaior;
+    for (i = 0; i < notimes - 1; i++)
+    {
+        posMaior = i;
+        for (p = i + 1; p < notimes; p++)
+        {
+            if (timescampeonato[p].SaldoDeGols > timescampeonato[posMaior].SaldoDeGols)
+            {
+                posMaior = p;
+            }
+        }
+        time aux = timescampeonato[i];
+        timescampeonato[i] = timescampeonato[posMaior];
+        timescampeonato[posMaior] = aux;
+    }
 }
 
 int encontratime(time *timescampeonato, char *nome, int notimes)
@@ -180,18 +205,28 @@ void computadadostimes(time *timescampeonato, int notimes, jogo *dadosjogos, int
     }
 }
 
-// Imprime classificação
-
 void imprimeclassificacao(time *timescampeonato, int notimes)
 {
+    ordenaPontos(timescampeonato, notimes);
+    ordenaSaldoGols(timescampeonato, notimes);
     printf("Posicao,Nome,Pontos Ganhos,Vitorias,Empates,Derrotas,Saldo de Gols,Gol Average\n");
+    for (int i = 0; i < notimes; i++)
+    {
+        printf("%i,%s,%i,%i,%i,%i,%i,%2.3f\n", i + 1, timescampeonato[i].nome, timescampeonato[i].PontosGanhos, timescampeonato[i].Vitorias, timescampeonato[i].Empates, timescampeonato[i].Derrotas, timescampeonato[i].SaldoDeGols, timescampeonato[i].GolAverage);
+    }
 }
-
-// Salva os dados da classificação dos tipos em arquivo no disco
 
 void salvaclassificacao(time *timescampeonato, int notimes, char *arquivo)
 {
-    // Adicione seu código
+    FILE *f;
+    f = fopen("CampeonatoIP.txt", "w");
+
+    for (int i = 0; i < notimes; i++)
+    {
+        fprintf(f, "%i,%s,%i,%i,%i,%i,%i,%2.3f\n", i + 1, timescampeonato[i].nome, timescampeonato[i].PontosGanhos, timescampeonato[i].Vitorias, timescampeonato[i].Empates, timescampeonato[i].Derrotas, timescampeonato[i].SaldoDeGols, timescampeonato[i].GolAverage);
+    }
+
+    fclose(f);
 }
 
 int main()
