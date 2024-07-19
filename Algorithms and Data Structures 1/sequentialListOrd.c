@@ -58,20 +58,20 @@ int listSearchBinary(LISTA *l, int key)
     return -1;
 }
 
-// Inserts a key in the list based on a specified position using INSERTION SORT
-int listInsertSort(REGISTRO reg, LISTA *l)
+// Inserts a key in the list based on an ordered position using INSERTION SORT
+int listInsertSort(int key, LISTA *l)
 {
     if (l->noElem >= MAX)
     {
         return 0;
     }
     int pos = l->noElem;
-    while (pos > 0 && l->A[pos - 1].chave > reg.chave)
+    while (pos > 0 && l->A[pos - 1].chave > key)
     {
         l->A[pos] = l->A[pos - 1];
         pos--;
     }
-    l->A[pos] = reg;
+    l->A[pos].chave = key;
     l->noElem++;
     return 1;
 }
