@@ -31,7 +31,7 @@ void listPrint(LISTA *l)
     }
 }
 
-int listSearch(int ch, LISTA *l)
+bool listSearch(int ch, LISTA *l)
 {
     for (int i = 0; i < l->noElem; i++)
     {
@@ -43,7 +43,7 @@ int listSearch(int ch, LISTA *l)
     return false;
 }
 
-int listInsert(int ch, int pos, LISTA *l)
+bool listInsert(int ch, int pos, LISTA *l)
 {
     if (l->noElem >= MAX || pos < 0 || pos > l->noElem)
     {
@@ -61,7 +61,7 @@ int listInsert(int ch, int pos, LISTA *l)
     return true;
 }
 
-int listDelete(int ch, LISTA *l)
+bool listDelete(int ch, LISTA *l)
 {
     int pos = listSearch(ch, l);
     if (pos == false)
