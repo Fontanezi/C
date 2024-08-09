@@ -1,10 +1,10 @@
 #include <stdio.h>
+#include <stdbool.h>
 #define MAX 50
 
 typedef struct
 {
     int chave;
-    // outros campos...
 } REGISTRO;
 
 typedef struct
@@ -13,48 +13,41 @@ typedef struct
     int noElem;
 } LISTA;
 
-// Initializes the sequential list
-// USE DYNAMIC IMPLEMENTATION. IF YOU USE THE STATIC IMPLEMENTATION, YOU'LL BE MODIFYING A COPY OF THE STRUCT
 void listInit(LISTA *l)
 {
     l->noElem = 0;
 }
 
-// Returns number of elements in the list
 int returnElements(LISTA *l)
 {
     return l->noElem;
 }
 
-// Prints list elements
-int listPrint(LISTA *l)
+void listPrint(LISTA *l)
 {
     for (int i = 0; i < l->noElem; i++)
     {
-        printf("%i ", l->A[i].chave);
-        printf("\"\n");
+        printf("Índice %i, chave %i.\n", i, l->A[i].chave);
     }
 }
 
-// Searches for a key in the list
-int listSearch(int key, LISTA *l)
+int listSearch(int ch, LISTA *l)
 {
     for (int i = 0; i < l->noElem; i++)
     {
-        if (l->A[i].chave == key)
+        if (l->A[i].chave == ch)
         {
             return i;
         }
     }
-    return 0;
+    return false;
 }
 
-// Inserts a key in the list based on a specified position
-int listInsert(int key, int pos, LISTA *l)
+int listInsert(int ch, int pos, LISTA *l)
 {
     if (l->noElem >= MAX || pos < 0 || pos > l->noElem)
     {
-        return 0;
+        return false;
     }
     else
     {
@@ -62,19 +55,18 @@ int listInsert(int key, int pos, LISTA *l)
         {
             l->A[i] = l->A[i - 1];
         }
-        l->A[pos].chave = key;
+        l->A[pos].chave = ch;
         l->noElem++;
-        return 1;
     }
+    return true;
 }
 
-// Removes a key from the list based on a specified position
-int listDelete(int key, LISTA *l)
+int listDelete(int ch, LISTA *l)
 {
-    int pos = listSearch(key, l);
-    if (pos == -1)
+    int pos = listSearch(ch, l);
+    if (pos == false)
     {
-        return 0;
+        return false;
     }
     else
     {
@@ -83,23 +75,21 @@ int listDelete(int key, LISTA *l)
             l->A[i] = l->A[i + 1];
         }
         l->noElem--;
-        return 1;
+        return true;
     }
 }
-// Resets the list
+
 void listReset(LISTA *l)
 {
     l->noElem = 0;
 }
 
-// A linear list is a structure where every element has an element before and after itself
-// A sequential list is a structure where the order of the elements in the memory is the same as in the real world
 int main()
 {
     LISTA lista1;
     LISTA *lista = &lista1;
     listInit(lista);
-    printf("Lista inicializada com %i elementos.\n", listPrint(lista));
+    printf("Lista inicializada com %i elementos.\n", returnElements(lista));
     listInsert(1, 0, lista);
     listInsert(2, 1, lista);
     listInsert(3, 2, lista);
@@ -118,5 +108,5 @@ int main()
     listReset(lista);
     printf("%i\n", returnElements(lista));
     return 0;
+    return 0;
 }
-
