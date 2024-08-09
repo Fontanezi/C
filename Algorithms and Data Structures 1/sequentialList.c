@@ -13,16 +13,20 @@ typedef struct
     int noElem;
 } LISTA;
 
+// Initializes the sequential list
+// USE DYNAMIC IMPLEMENTATION. IF YOU USE THE STATIC IMPLEMENTATION, YOU'LL BE MODIFYING A COPY OF THE STRUCT
 void listInit(LISTA *l)
 {
     l->noElem = 0;
 }
 
+// Returns number of elements in the list
 int returnElements(LISTA *l)
 {
     return l->noElem;
 }
 
+// Prints list elements
 void listPrint(LISTA *l)
 {
     for (int i = 0; i < l->noElem; i++)
@@ -31,6 +35,7 @@ void listPrint(LISTA *l)
     }
 }
 
+// Searches for a key 
 bool listSearch(int ch, LISTA *l)
 {
     for (int i = 0; i < l->noElem; i++)
@@ -43,6 +48,7 @@ bool listSearch(int ch, LISTA *l)
     return false;
 }
 
+// Inserts a key in the list based on a position
 bool listInsert(int ch, int pos, LISTA *l)
 {
     if (l->noElem >= MAX || pos < 0 || pos > l->noElem)
@@ -61,6 +67,7 @@ bool listInsert(int ch, int pos, LISTA *l)
     return true;
 }
 
+// Removes a key from the list based on a specified position
 bool listDelete(int ch, LISTA *l)
 {
     int pos = listSearch(ch, l);
