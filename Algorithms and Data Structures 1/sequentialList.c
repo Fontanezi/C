@@ -35,7 +35,7 @@ void listPrint(LISTA *l)
     }
 }
 
-// Searches for a key 
+// Searches for a key
 bool listSearch(int ch, LISTA *l)
 {
     for (int i = 0; i < l->noElem; i++)
@@ -86,6 +86,7 @@ bool listDelete(int ch, LISTA *l)
     }
 }
 
+// Resets the list
 void listReset(LISTA *l)
 {
     l->noElem = 0;

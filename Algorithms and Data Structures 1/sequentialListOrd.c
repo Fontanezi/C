@@ -94,6 +94,7 @@ int listDelete(int key, LISTA *l)
         return 1;
     }
 }
+
 // Resets the list
 void listReset(LISTA *l)
 {
