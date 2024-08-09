@@ -116,5 +116,4 @@ int main()
     listReset(lista);
     printf("%i\n", returnElements(lista));
     return 0;
-    return 0;
 }
