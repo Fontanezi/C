@@ -3,6 +3,8 @@
 #define MAX 50
 #define NULL -1
 
+// USED IN STORAGE DISK MANAGEMENT
+
 typedef struct
 {
     int key;
