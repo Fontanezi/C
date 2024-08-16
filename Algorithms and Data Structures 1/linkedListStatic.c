@@ -59,7 +59,7 @@ void listPrint(LIST *l)
 int listSearch(LIST *l, int key)
 {
     int i = l->start;
-    while (i != NULL && l->A[i].reg.key < key) // E se for o primeiro elemento? (No caso de A[0] ter key = 0). Seria interessante usar <= ?
+    while (i != NULL && l->A[i].reg.key <= key) // E se for o primeiro elemento? (No caso de A[0] ter key = 0). Seria interessante usar <= ?
     {
         i = l->A[i].next;
         if (i != NULL && l->A[i].reg.key == key)
