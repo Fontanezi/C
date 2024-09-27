@@ -4,7 +4,7 @@
 /**                                                                 **/
 /**   Primeiro Exercicio-Programa                                   **/
 /**                                                                 **/
-/**   <nome do(a) aluno(a)>                  <numero USP>   <turma> **/
+/**   João Fontanezi                  14747191                   94 **/
 /**                                                                 **/
 /*********************************************************************/
 
@@ -74,10 +74,28 @@ Funcao que recebe o endereco de um TIME e, se esse endereco for igual a NULL, re
 */
 int calcularPenalidade(TIME *time)
 {
+    // Verifica se o endereço time é valido
+    if (time == NULL)
+    {
+        return -1;
+    }
+    else
+    {
+        // Inicializa contador de penalidades do time
+        int penalidadeTotal = 0;
 
-    /* Complete o codigo desta funcao */
+        // Para cada problema, verifica se foi resolvido. Se for o caso, adiciona ao campo penalidadeTotal o tempo corrido para resolução + a penalidade por tentativas incorretas. Usa-se tentativas[i] - 1 para evitar que problemas submetidos uma única vez contem com penalidade.
+        for (int i = 0; i < PROBLEMAS; i++)
+        {
+            if (time->resolvidos[i] == true)
+            {
+                penalidadeTotal += time->minutos[i];
+                penalidadeTotal += 20 * (time->tentativas[i] - 1);
+            }
+        }
 
-    return -1;
+        return penalidadeTotal;
+    }
 }
 
 /*
@@ -85,10 +103,27 @@ Funcao que recebe o endereco de um TIME e, se esse endereco for igual a NULL, re
 */
 int calcularProblemasResolvidosDoTime(TIME *time)
 {
+    // Verifica se endereço time é válido
+    if (time == NULL)
+    {
+        return -1;
+    }
+    else
+    {
+        // Inicializa contador de problemas resolvidos do time
+        int problemasResolvidos = 0;
 
-    /* Complete o codigo desta funcao */
+        // Itera pela array de resolvidos do time. Se o problema estiver marcado como true, adiciona um problema resolvido ao contador
+        for (int i = 0; i < PROBLEMAS; i++)
+        {
+            if (time->resolvidos[i] == true)
+            {
+                problemasResolvidos += 1;
+            }
+        }
 
-    return -1;
+        return problemasResolvidos;
+    }
 }
 
 /*
@@ -96,27 +131,132 @@ Funcao que recebe o endereco de uma MARATONA e, se esse endereco for igual a NUL
 */
 int calcularProblemasNaoResolvidos(MARATONA *mar)
 {
+    // Verifica se o endereço time é válido
+    if (mar == NULL)
+    {
+        return -1;
+    }
 
-    /* Complete o codigo desta funcao */
+    // Cria array que guarda o estado de resolução GERAL dos problemas, referente á maratona como um todo
+    int resolvidos[PROBLEMAS] = {false};
+    // Aponta para o primeiro time da lista
+    PONT timeAtual = mar->cabeca->prox;
 
-    return -1;
+    // Loop que itera até o último time da lista (time -> prox == NULL)
+    while (timeAtual != NULL)
+    {
+        // Itera pela array resolvidos do time atual, e marca os problemas já solucionados pelo time como true na array de problemas da maratona
+        for (int j = 0; j < PROBLEMAS; j++)
+        {
+            if (timeAtual->time->resolvidos[j] == true)
+            {
+                resolvidos[j] = true;
+            }
+        }
+        // Segue para o próximo time
+        timeAtual = timeAtual->prox;
+    }
+
+    // Inicializa contador de problemas não resolvidos
+    int naoResolvidos = 0;
+
+    // Itera pela array geral de problemas. Se o problema estiver marcado como false, significa que até o presente momento nenhum time enviou solução correta
+    for (int k = 0; k < PROBLEMAS; k++)
+    {
+        if (resolvidos[k] == false)
+        {
+            // Adiciona o problema ainda não resolvido ao contador
+            naoResolvidos++;
+        }
+    }
+
+    return naoResolvidos;
 }
 
 /*
-Funcao que recebe cinco parametros: mar - endereco de uma MARATONA, id â€“ identificador de um time, problema â€“ identificador de um problema, tempo â€“ tempo, em minutos, da submissao, acerto â€“ parametro booleano que indica se o problema foi resolvido corretamente ou nao. Esta funcao devera retornar false caso algum parametro seja invalido, isto e MAR igual a NULL, ou id fora do intervalo que vai de 1 ate o numero de times da respectiva maratona, ou problema fora do intervalo valido dos problemas (que vai de 0 a PROBLEMAS â€“ 1). A funcao tambem devera retornar false caso o respectivo time ja tenha resolvido corretamente o problema cujo numero e dado pelo parametro problema. Isto e, submissoes de problemas ja resolvidos pelo time devem ser ignoradas. Caso contrario, a funcao deve atualizar as seguintes informacoes do time:
+Funcao que recebe cinco parametros: mar - endereco de uma MARATONA, id â€“ identificador de um time, problema â€“ identificador de um problema,
+tempo â€“ tempo, em minutos, da submissao, acerto â€“ parametro booleano que indica se o problema foi resolvido corretamente ou nao.
+Esta funcao devera retornar false caso algum parametro seja invalido, isto e MAR igual a NULL, ou id fora do intervalo que vai de 1
+ate o numero de times da respectiva maratona, ou problema fora do intervalo valido dos problemas (que vai de 0 a PROBLEMAS â€“ 1).
+A funcao tambem devera retornar false caso o respectivo time ja tenha resolvido corretamente o problema cujo numero e dado pelo parametro problema.
+Isto e, submissoes de problemas ja resolvidos pelo time devem ser ignoradas. Caso contrario, a funcao deve atualizar as seguintes informacoes do time:
 (i) aumentar em uma unidade o numero de tentativas de resolucao pelo time para o respectivo problema;
 (ii) caso o time tenha acertado a solucao (parametro acerto = true), (ii.a) atualizar para verdadeiro o respectivo valor do arranjo resolvidos};
 (ii.b) atualizar o valor do arranjo minutos}, atualizando o valor correspondente ao problema atual com o tempo passado como parametro;
 (ii.c) reposicionar, se necessario, o ELEMENTO correspondente ao time atual na lista duplamente ligada, ordenada, com no cabeca e nao circular.
- A lista e ordenada pela classificacao do time na maratona, a qual segue estas regras: a lista e ordenada de forma decrescente do time que resolveu mais problemas para o time que resolveu menos problemas e tendo como criterio de desempate as penalidades recebidas pelos times (dados dois times que resolveram a mesma quantidade de problemas, ficara na frente da lista [mais para o inicio da lista] aquele com menor penalidade).
-Se dois times empatarem nestes dois criterios, deve ficar a frente da lista aquele que ja estava a frente antes da atualizacao (isto e, se o time A ja tinha resolvido dois problemas e tinha penalidade 200 e a funcao tratarSubmissao foi chamada para o time B que, agora, resolveu seu segundo problema e ficou com penalidade 200, o time A deve permanecer a frente na classificacao em relacao ao time B [como ja estava antes desta submissao]). Durante a atualizacao da posicao dos elementos da lista ligada preste bastante atencao para atualizar todos os ponteiros necessarios e nao esqueca que a lista e duplamente ligada e possui no cabeca.
+ A lista e ordenada pela classificacao do time na maratona, a qual segue estas regras: a lista e ordenada de forma decrescente do time que resolveu
+ mais problemas para o time que resolveu menos problemas e tendo como criterio de desempate as penalidades recebidas pelos times (dados dois times que
+ resolveram a mesma quantidade de problemas, ficara na frente da lista [mais para o inicio da lista] aquele com menor penalidade).
+Se dois times empatarem nestes dois criterios, deve ficar a frente da lista aquele que ja estava a frente antes da atualizacao
+(isto e, se o time A ja tinha resolvido dois problemas e tinha penalidade 200 e a funcao tratarSubmissao foi chamada para o time B que, agora,
+resolveu seu segundo problema e ficou com penalidade 200, o time A deve permanecer a frente na classificacao em relacao ao time B [como ja estava
+antes desta submissao]). Durante a atualizacao da posicao dos elementos da lista ligada preste bastante atencao para atualizar todos os ponteiros
+necessarios e nao esqueca que a lista e duplamente ligada e possui no cabeca.
 */
 bool tratarSubmissao(MARATONA *mar, int id, int problema, int tempo, bool acerto)
 {
+    // Verifica as diversas condições de validação da função
+    if (mar == NULL || id < 1 || id > mar->numTimes || problema < 0 || problema >= PROBLEMAS)
+    {
+        return false;
+    }
 
-    /* Complete o codigo desta funcao */
+    // Encontra o time correspondente ao id solicitado
+    PONT atual = mar->cabeca->prox;
+    while (atual != NULL && atual->time->id != id)
+    {
+        atual = atual->prox;
+    }
 
-    return false;
+    // Trata o caso em que o time solicitado não faz parte da maratona
+    if (atual == NULL)
+    {
+        return false;
+    }
+
+    // Verifica se o problema solicitado já foi resolvido pelo time
+    if (atual->time->resolvidos[problema] == true)
+    {
+        return false; // Ignora a submissão se o problema foi resolvido
+    }
+
+    // Aumenta o número de tentativas do problema
+    atual->time->tentativas[problema]++;
+
+    // Se a submissão do problema for correta:
+    if (acerto == true)
+    {
+        atual->time->resolvidos[problema] = true; // Marca o problema como resolvido pelo time
+        atual->time->minutos[problema] = tempo;   // Insere os minutos corridos para a resolução do problema na array minutos do time
+
+        // Reposiciona o time na lista, SE necessário
+        PONT anterior = atual->ant;
+        while (anterior != mar->cabeca &&
+               (calcularProblemasResolvidosDoTime(anterior->time) < calcularProblemasResolvidosDoTime(atual->time) ||
+                (calcularProblemasResolvidosDoTime(anterior->time) == calcularProblemasResolvidosDoTime(atual->time) &&
+                 calcularPenalidade(anterior->time) > calcularPenalidade(atual->time))))
+        {
+            // Reorganiza os ponteiros para mover o time para a nova posição
+            atual->ant = anterior->ant;
+            if (anterior->ant != NULL)
+            {
+                anterior->ant->prox = atual;
+            }
+
+            anterior->ant = atual;
+            anterior->prox = atual->prox;
+            if (atual->prox != NULL)
+            {
+                atual->prox->ant = anterior;
+            }
+            atual->prox = anterior;
+
+            // Atualiza o ponteiro para continuar verificando a ordem
+            anterior = atual->ant;
+        }
+    }
+
+    return true;
 }
 
 /*
