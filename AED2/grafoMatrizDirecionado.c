@@ -83,14 +83,12 @@ bool liberaGrafo(Grafo *g)
 bool insereAresta(Grafo *g, int v1, int v2)
 {
     if (!g || v1 < 0 || v2 < 0 ||
-        v1 >= g->numVertices || v2 >= g->numVertices ||
-        v1 == v2)
+        v1 >= g->numVertices || v2 >= g->numVertices)
         return false;
 
     if (g->matriz[v1][v2] == false)
     {
         g->matriz[v1][v2] = true;
-        g->matriz[v2][v1] = true;
         g->numArestas++;
     }
     return true;
@@ -104,7 +102,6 @@ bool removeAresta(Grafo *g, int v1, int v2)
         return false;
 
     g->matriz[v1][v2] = false;
-    g->matriz[v2][v1] = false;
     g->numArestas--;
 
     return true;
@@ -162,9 +159,9 @@ int retornaGrauDoVertice(Grafo *g, int v)
     for (x = 0; x < g->numVertices; x++)
     {
         if (g->matriz[v][x])
-        {
             grau++;
-        }
+        if (g->matriz[x][v])
+            grau++;
     }
     return grau;
 }
